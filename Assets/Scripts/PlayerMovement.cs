@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
+    public GameObject secenekPaneli;
     [SerializeField] private float speed = 5f;
     private Rigidbody2D rb2d;
     private Vector2 moveInput;
@@ -16,8 +18,29 @@ public class PlayerMovement : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
 
-   
+        if (other.CompareTag("Finish"))
+        {
+            secenekPaneli.SetActive(true); // Ekrani ac
+            Time.timeScale = 0; // Oyunu durdur (Istege bagli)
+            Cursor.visible = true; // Fare imlecini goster
+            Cursor.lockState = CursorLockMode.None; // Fareyi serbest birak
+        }
+        if (other.CompareTag("door"))
+        {
+            SceneManager.LoadScene(2);
+            Debug.Log(313131);
+        }
+        if (other.CompareTag("gate1"))
+        {
+            SceneManager.LoadScene(1);
+            Debug.Log(313131);
+        }
+    }
+
+
     public void OnMove(InputValue value)
     {
         animator.SetBool("isWalking", true);
